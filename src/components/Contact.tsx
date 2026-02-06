@@ -96,7 +96,7 @@ const Contact = () => {
             <div className="space-y-4">
               {[
                 { icon: Phone, text: "+1 (555) 123-4567" },
-                { icon: Mail, text: "info@buildcraft.com" },
+                { icon: Mail, text: "info@msquarearchitects.com" },
                 { icon: MapPin, text: "123 Construction Ave, Suite 100" },
               ].map(({ icon: Icon, text }) => (
                 <div key={text} className="flex items-center gap-4">

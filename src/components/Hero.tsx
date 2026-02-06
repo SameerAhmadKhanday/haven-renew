@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import { ArrowDown } from "lucide-react";
+import { Link } from "react-router-dom";
 import heroImage from "@/assets/hero-construction.jpg";
 
 const Hero = () => {
@@ -40,7 +41,7 @@ const Hero = () => {
           transition={{ duration: 0.7, delay: 0.3 }}
           className="mt-6 text-secondary-foreground/70 text-lg max-w-2xl mx-auto"
         >
-          Expert civil engineering services transforming homes with precision craftsmanship,
+          M-Square Architects — expert civil engineering services transforming homes with precision craftsmanship,
           structural integrity, and modern design excellence.
         </motion.p>
         <motion.div
@@ -49,30 +50,29 @@ const Hero = () => {
           transition={{ duration: 0.7, delay: 0.45 }}
           className="mt-10 flex flex-col sm:flex-row gap-4 justify-center"
         >
-          <a
-            href="#projects"
+          <Link
+            to="/projects"
             className="bg-primary text-primary-foreground px-8 py-3.5 rounded-md font-semibold hover:opacity-90 transition-opacity text-base"
           >
             View Our Work
-          </a>
-          <a
-            href="#contact"
+          </Link>
+          <Link
+            to="/contact"
             className="border border-secondary-foreground/30 text-secondary-foreground px-8 py-3.5 rounded-md font-semibold hover:border-primary hover:text-primary transition-colors text-base"
           >
             Free Consultation
-          </a>
+          </Link>
         </motion.div>
       </div>
 
       {/* Scroll indicator */}
-      <motion.a
-        href="#services"
+      <motion.div
         animate={{ y: [0, 10, 0] }}
         transition={{ repeat: Infinity, duration: 2 }}
         className="absolute bottom-8 left-1/2 -translate-x-1/2 text-secondary-foreground/50"
       >
         <ArrowDown className="w-6 h-6" />
-      </motion.a>
+      </motion.div>
     </section>
   );
 };
