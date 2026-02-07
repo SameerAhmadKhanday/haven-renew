@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import { CheckCircle2 } from "lucide-react";
+import ceoImage from "@/assets/ceo-placeholder.jpg";
 
 const stats = [
   { value: "250+", label: "Projects Completed" },
@@ -14,10 +15,48 @@ const strengths = [
   "Full project management",
 ];
 
+const team = [
+  { name: "Muhammad Mustafa", role: "CEO & Founder", image: ceoImage },
+];
+
 const About = () => {
   return (
     <section id="about" className="py-24 bg-background">
       <div className="container mx-auto px-4">
+        {/* CEO & Leadership */}
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+          className="max-w-6xl mx-auto mb-20"
+        >
+          <p className="text-primary font-semibold tracking-widest uppercase text-sm mb-3 text-center">
+            Leadership
+          </p>
+          <h2 className="font-display text-3xl md:text-4xl font-bold text-foreground mb-12 text-center">
+            Meet Our Founder
+          </h2>
+          <div className="flex flex-col items-center">
+            <div className="relative w-48 h-48 md:w-56 md:h-56 rounded-full overflow-hidden border-4 border-primary shadow-lg mb-6">
+              <img
+                src={team[0].image}
+                alt={team[0].name}
+                className="w-full h-full object-cover"
+              />
+            </div>
+            <h3 className="font-display text-2xl font-bold text-foreground">
+              {team[0].name}
+            </h3>
+            <p className="text-primary font-semibold mt-1">{team[0].role}</p>
+            <p className="text-muted-foreground text-center max-w-lg mt-3 leading-relaxed">
+              With over 15 years of experience in architecture and civil engineering,
+              Muhammad Mustafa leads M-Square Architects with a vision for innovative,
+              sustainable design that transforms spaces and communities.
+            </p>
+          </div>
+        </motion.div>
+
         <div className="grid md:grid-cols-2 gap-16 items-center max-w-6xl mx-auto">
           {/* Stats */}
           <motion.div
