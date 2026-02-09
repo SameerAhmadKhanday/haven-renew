@@ -95,13 +95,22 @@ const Projects = () => {
                   transition={{ delay: i * 0.15, duration: 0.5 }}
                   className="group cursor-pointer"
                 >
-                  <div className="relative overflow-hidden rounded-lg mb-4">
+                  <div className="relative overflow-hidden rounded-lg mb-4"
+                    onMouseEnter={(e) => {
+                      const video = e.currentTarget.querySelector("video");
+                      video?.play();
+                    }}
+                    onMouseLeave={(e) => {
+                      const video = e.currentTarget.querySelector("video");
+                      if (video) { video.pause(); video.currentTime = 0; }
+                    }}
+                  >
                     {project.media[0]?.media_type === "video" ? (
-                      <video src={project.thumbnail} className="w-full h-64 object-cover" muted loop playsInline onMouseOver={(e) => (e.target as HTMLVideoElement).play()} onMouseOut={(e) => (e.target as HTMLVideoElement).pause()} />
+                      <video src={project.thumbnail} className="w-full h-64 object-cover" muted loop playsInline preload="metadata" />
                     ) : (
                       <img src={project.thumbnail} alt={project.title} className="w-full h-64 object-cover group-hover:scale-105 transition-transform duration-500" loading="lazy" />
                     )}
-                    <div className="absolute inset-0 bg-secondary/0 group-hover:bg-secondary/40 transition-colors duration-300" />
+                    <div className="absolute inset-0 bg-secondary/0 group-hover:bg-secondary/40 transition-colors duration-300 pointer-events-none" />
                   </div>
                   <span className="text-primary text-xs font-semibold uppercase tracking-widest">{project.category}</span>
                   <h3 className="font-display text-lg font-semibold text-secondary-foreground mt-1">{project.title}</h3>
