@@ -1,18 +1,43 @@
-import { motion } from "framer-motion";
+import { useState, useEffect } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import { ArrowDown } from "lucide-react";
 import { Link } from "react-router-dom";
-import heroImage from "@/assets/hero-construction.jpg";
+import heroConstruction from "@/assets/hero-construction.jpg";
+import heroReconstruction from "@/assets/hero-reconstruction.jpg";
+import heroRenovation from "@/assets/hero-renovation.jpg";
+
+const heroImages = [
+  { src: heroConstruction, alt: "Modern house under construction at golden hour" },
+  { src: heroReconstruction, alt: "House reconstruction with new roof framing" },
+  { src: heroRenovation, alt: "Beautifully renovated modern luxury home" },
+];
 
 const Hero = () => {
+  const [currentIndex, setCurrentIndex] = useState(0);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentIndex((prev) => (prev + 1) % heroImages.length);
+    }, 5000);
+    return () => clearInterval(interval);
+  }, []);
+
   return (
     <section id="home" className="relative min-h-screen flex items-center justify-center overflow-hidden">
-      {/* Background */}
+      {/* Background Slideshow */}
       <div className="absolute inset-0">
-        <img
-          src={heroImage}
-          alt="Modern house under construction at golden hour"
-          className="w-full h-full object-cover"
-        />
+        <AnimatePresence mode="wait">
+          <motion.img
+            key={currentIndex}
+            src={heroImages[currentIndex].src}
+            alt={heroImages[currentIndex].alt}
+            className="absolute inset-0 w-full h-full object-cover"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 1 }}
+          />
+        </AnimatePresence>
         <div className="absolute inset-0 bg-secondary/70" />
       </div>
 
