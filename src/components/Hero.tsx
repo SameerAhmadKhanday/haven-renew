@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ArrowDown } from "lucide-react";
 import { Link } from "react-router-dom";
+import RotatingText from "./RotatingText";
 import heroConstruction from "@/assets/hero-construction.jpg";
 import heroReconstruction from "@/assets/hero-reconstruction.jpg";
 import heroRenovation from "@/assets/hero-renovation.jpg";
@@ -58,7 +59,11 @@ const Hero = () => {
           className="font-display text-4xl sm:text-5xl md:text-7xl font-bold text-secondary-foreground leading-tight max-w-4xl mx-auto"
         >
           Building Dreams Into{" "}
-          <span className="text-primary">Reality</span>
+          <RotatingText
+            texts={["Reality", "Homes", "Legacy"]}
+            className="text-primary"
+            rotationInterval={3000}
+          />
         </motion.h1>
         <motion.p
           initial={{ opacity: 0, y: 30 }}
