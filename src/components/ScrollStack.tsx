@@ -43,6 +43,8 @@ interface ScrollStackProps {
   /** Use window scroll instead of container. Default false */
   useWindowScroll?: boolean;
   onStackComplete?: () => void;
+  /** Called when the active (most visible) card index changes */
+  onActiveIndexChange?: (index: number) => void;
 }
 
 const ScrollStack: React.FC<ScrollStackProps> = ({
@@ -57,11 +59,13 @@ const ScrollStack: React.FC<ScrollStackProps> = ({
   scaleDuration = 0.5,
   useWindowScroll = false,
   onStackComplete,
+  onActiveIndexChange,
 }) => {
   const scrollerRef = useRef<HTMLDivElement>(null);
   const lenisRef = useRef<Lenis | null>(null);
   const animationFrameRef = useRef<number | null>(null);
   const stackCompletedRef = useRef(false);
+  const activeIndexRef = useRef(0);
 
   const parsePercentage = useCallback(
     (value: string, total: number) => (parseFloat(value) / 100) * total,
@@ -116,6 +120,7 @@ const ScrollStack: React.FC<ScrollStackProps> = ({
     const scaleEndPos = parsePercentage(scaleEndPosition, clientHeight);
 
     let allDone = true;
+    let currentActiveIndex = 0;
 
     cards.forEach((card, i) => {
       const cardTop = getElementOffset(card);
@@ -145,10 +150,16 @@ const ScrollStack: React.FC<ScrollStackProps> = ({
       if (stickyProgress >= 1) {
         const stackOffset = i * itemStackDistance;
         card.style.top = `${stackPos + stackOffset}px`;
+        currentActiveIndex = i;
       } else {
         card.style.top = `${stackPos}px`;
       }
     });
+
+    if (currentActiveIndex !== activeIndexRef.current) {
+      activeIndexRef.current = currentActiveIndex;
+      onActiveIndexChange?.(currentActiveIndex);
+    }
 
     if (allDone && !stackCompletedRef.current && cards.length > 1) {
       stackCompletedRef.current = true;
@@ -163,6 +174,7 @@ const ScrollStack: React.FC<ScrollStackProps> = ({
     scaleDuration,
     useWindowScroll,
     onStackComplete,
+    onActiveIndexChange,
     calculateProgress,
     parsePercentage,
     getScrollData,
