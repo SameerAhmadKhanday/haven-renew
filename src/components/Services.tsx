@@ -1,5 +1,4 @@
-import { useState, useCallback } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import {
   Building2,
   Hammer,
@@ -10,13 +9,6 @@ import {
 } from "lucide-react";
 import ScrollStack, { ScrollStackItem } from "./ScrollStack";
 
-import serviceConstruction from "@/assets/service-construction.jpg";
-import serviceReconstruction from "@/assets/service-reconstruction.jpg";
-import serviceRenovation from "@/assets/service-renovation.jpg";
-import servicePlanning from "@/assets/service-planning.jpg";
-import serviceManagement from "@/assets/service-management.jpg";
-import serviceConsulting from "@/assets/service-consulting.jpg";
-
 const services = [
   {
     icon: Building2,
@@ -25,7 +17,6 @@ const services = [
       "From foundation to finish, we build custom homes with structural excellence and attention to every detail.",
     highlights: ["Custom Floor Plans", "Premium Materials", "Quality Assurance"],
     color: "from-primary/20 to-primary/5",
-    image: serviceConstruction,
   },
   {
     icon: Hammer,
@@ -34,7 +25,6 @@ const services = [
       "Restoring and rebuilding structures with modern engineering standards while preserving architectural character.",
     highlights: ["Structural Assessment", "Heritage Preservation", "Modern Upgrades"],
     color: "from-primary/15 to-primary/5",
-    image: serviceReconstruction,
   },
   {
     icon: PaintBucket,
@@ -43,7 +33,6 @@ const services = [
       "Transforming interiors and exteriors with contemporary designs, premium materials, and expert craftsmanship.",
     highlights: ["Interior Design", "Exterior Makeover", "Space Optimization"],
     color: "from-primary/10 to-primary/5",
-    image: serviceRenovation,
   },
   {
     icon: Ruler,
@@ -52,7 +41,6 @@ const services = [
       "Precise blueprints and 3D designs that bring your vision to life before construction begins.",
     highlights: ["3D Visualization", "Site Analysis", "Permit Assistance"],
     color: "from-primary/20 to-primary/5",
-    image: servicePlanning,
   },
   {
     icon: HardHat,
@@ -61,7 +49,6 @@ const services = [
       "End-to-end oversight ensuring timelines, budgets, and quality standards are met on every project.",
     highlights: ["Timeline Tracking", "Budget Control", "Safety Compliance"],
     color: "from-primary/15 to-primary/5",
-    image: serviceManagement,
   },
   {
     icon: Lightbulb,
@@ -70,40 +57,13 @@ const services = [
       "Expert guidance on materials, regulations, and design to make informed decisions for your project.",
     highlights: ["Material Selection", "Code Compliance", "Cost Estimation"],
     color: "from-primary/10 to-primary/5",
-    image: serviceConsulting,
   },
 ];
 
 const Services = () => {
-  const [activeIndex, setActiveIndex] = useState(0);
-
-  const handleActiveIndexChange = useCallback((index: number) => {
-    setActiveIndex(index);
-  }, []);
-
   return (
-    <section id="services" className="relative py-24 overflow-hidden">
-      {/* Background images with crossfade */}
-      <div className="absolute inset-0 z-0">
-        {services.map((service, i) => (
-          <div
-            key={service.title}
-            className="absolute inset-0 transition-opacity duration-700 ease-in-out"
-            style={{ opacity: activeIndex === i ? 1 : 0 }}
-          >
-            <img
-              src={service.image}
-              alt=""
-              className="w-full h-full object-cover"
-              loading={i === 0 ? "eager" : "lazy"}
-            />
-          </div>
-        ))}
-        {/* Dark overlay for readability */}
-        <div className="absolute inset-0 bg-background/80 backdrop-blur-sm" />
-      </div>
-
-      <div className="container mx-auto px-4 relative z-10">
+    <section id="services" className="py-24 bg-background">
+      <div className="container mx-auto px-4">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -130,11 +90,10 @@ const Services = () => {
             stackPosition="12%"
             scaleEndPosition="55%"
             baseScale={0.85}
-            onActiveIndexChange={handleActiveIndexChange}
           >
             {services.map((service, i) => (
               <ScrollStackItem key={service.title}>
-                <div className="bg-card/95 backdrop-blur-md border border-border p-8 md:p-10 rounded-xl shadow-lg max-w-3xl mx-auto">
+                <div className="bg-card border border-border p-8 md:p-10 rounded-xl shadow-lg max-w-3xl mx-auto">
                   <div className="flex items-start gap-6">
                     <div
                       className={`w-16 h-16 rounded-lg bg-gradient-to-br ${service.color} flex items-center justify-center shrink-0`}
