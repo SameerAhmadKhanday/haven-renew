@@ -11,6 +11,7 @@ interface ContactFormData {
   name: string;
   email: string;
   phone: string;
+  siteLocation: string;
   message: string;
 }
 
@@ -26,7 +27,7 @@ serve(async (req) => {
     }
 
     const resend = new Resend(RESEND_API_KEY);
-    const { name, email, phone, message }: ContactFormData = await req.json();
+    const { name, email, phone, siteLocation, message }: ContactFormData = await req.json();
 
     if (!name || !email || !message) {
       throw new Error("Missing required fields: name, email, message");
@@ -55,6 +56,10 @@ serve(async (req) => {
               <td style="padding: 10px; color: #333;">${phone || "Not provided"}</td>
             </tr>
             <tr style="background-color: #f9f9f9;">
+              <td style="padding: 10px; font-weight: bold; color: #555;">Site Location:</td>
+              <td style="padding: 10px; color: #333;">${siteLocation || "Not provided"}</td>
+            </tr>
+            <tr>
               <td style="padding: 10px; font-weight: bold; color: #555; vertical-align: top;">Message:</td>
               <td style="padding: 10px; color: #333;">${message}</td>
             </tr>

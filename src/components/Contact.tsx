@@ -5,7 +5,7 @@ import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
 
 const Contact = () => {
-  const [form, setForm] = useState({ name: "", email: "", phone: "", message: "" });
+  const [form, setForm] = useState({ name: "", email: "", phone: "", siteLocation: "", message: "" });
   const [sending, setSending] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -17,7 +17,7 @@ const Contact = () => {
       });
       if (error) throw error;
       toast.success("Thank you! We'll be in touch within 24 hours.");
-      setForm({ name: "", email: "", phone: "", message: "" });
+      setForm({ name: "", email: "", phone: "", siteLocation: "", message: "" });
     } catch (err) {
       console.error("Contact form error:", err);
       toast.error("Something went wrong. Please try again or call us directly.");
@@ -73,6 +73,13 @@ const Contact = () => {
               placeholder="Phone Number"
               value={form.phone}
               onChange={(e) => setForm({ ...form, phone: e.target.value })}
+              className="w-full bg-background border border-border rounded-md px-4 py-3 text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/50"
+            />
+            <input
+              type="text"
+              placeholder="Site Location"
+              value={form.siteLocation}
+              onChange={(e) => setForm({ ...form, siteLocation: e.target.value })}
               className="w-full bg-background border border-border rounded-md px-4 py-3 text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/50"
             />
             <textarea
