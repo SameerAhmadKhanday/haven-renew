@@ -5,9 +5,23 @@ interface RotatingTextProps {
   texts: string[];
   rotationInterval?: number;
   className?: string;
+  staggerDuration?: number;
+  transition?: any;
+  initial?: any;
+  animate?: any;
+  exit?: any;
 }
 
-const RotatingText = ({ texts, rotationInterval = 2500, className }: RotatingTextProps) => {
+const RotatingText = ({
+  texts,
+  rotationInterval = 2500,
+  className,
+  staggerDuration = 0.03,
+  transition = { type: "spring", damping: 25, stiffness: 300 },
+  initial = { y: "100%", opacity: 0 },
+  animate = { y: 0, opacity: 1 },
+  exit = { y: "-120%", opacity: 0 },
+}: RotatingTextProps) => {
   const [currentIndex, setCurrentIndex] = useState(0);
 
   const next = useCallback(() => {
@@ -19,39 +33,66 @@ const RotatingText = ({ texts, rotationInterval = 2500, className }: RotatingTex
     return () => clearInterval(interval);
   }, [next, rotationInterval]);
 
-  const characters = useMemo(() => {
-    return Array.from(texts[currentIndex]);
+  const elements = useMemo(() => {
+    const currentText = texts[currentIndex];
+    const words = currentText.split(" ");
+    return words.map((word, i) => ({
+      characters: Array.from(word),
+      needsSpace: i !== words.length - 1,
+    }));
   }, [texts, currentIndex]);
 
+  const totalChars = useMemo(() => {
+    return elements.reduce((sum, word) => sum + word.characters.length, 0);
+  }, [elements]);
+
   return (
-    <span className={`inline-flex overflow-hidden ${className ?? ""}`}>
+    <motion.span
+      className={`inline-flex overflow-hidden ${className ?? ""}`}
+      layout
+      transition={transition}
+    >
       <span className="sr-only">{texts[currentIndex]}</span>
       <AnimatePresence mode="wait" initial={false}>
         <motion.span
           key={currentIndex}
-          className="inline-flex"
+          className="inline-flex flex-wrap"
           aria-hidden="true"
+          layout
         >
-          {characters.map((char, i) => (
-            <motion.span
-              key={i}
-              initial={{ y: "100%", opacity: 0 }}
-              animate={{ y: 0, opacity: 1 }}
-              exit={{ y: "-120%", opacity: 0 }}
-              transition={{
-                type: "spring",
-                damping: 25,
-                stiffness: 300,
-                delay: i * 0.03,
-              }}
-              className="inline-block"
-            >
-              {char === " " ? "\u00A0" : char}
-            </motion.span>
-          ))}
+          {elements.map((wordObj, wordIndex, array) => {
+            const previousCharsCount = array
+              .slice(0, wordIndex)
+              .reduce((sum, word) => sum + word.characters.length, 0);
+
+            return (
+              <span key={wordIndex} className="inline-flex">
+                {wordObj.characters.map((char, charIndex) => (
+                  <motion.span
+                    key={charIndex}
+                    initial={initial}
+                    animate={animate}
+                    exit={exit}
+                    transition={{
+                      ...transition,
+                      delay: (previousCharsCount + charIndex) * staggerDuration,
+                    }}
+                    className="inline-block"
+                  >
+                    {char}
+                  </motion.span>
+                ))}
+                {wordObj.needsSpace && (
+                  <span className="inline-block" style={{ whiteSpace: "pre" }}>
+                    {" "}
+                  </span>
+                )}
+              </span>
+            );
+          })}
         </motion.span>
       </AnimatePresence>
-    </span>
+    </motion.span>
   );
 };
 
