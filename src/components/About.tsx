@@ -16,7 +16,7 @@ const strengths = [
 ];
 
 const team = [
-  { name: "Muhammad Mustafa", role: "CEO & Founder", image: ceoImage },
+  { name: "Er. Tawseef Wani", role: "CEO & Founder", image: ceoImage },
 ];
 
 const About = () => {
