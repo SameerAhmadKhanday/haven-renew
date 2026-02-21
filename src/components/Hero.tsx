@@ -90,7 +90,7 @@ const Hero = () => {
             to="/contact"
             className="border border-secondary-foreground/30 text-secondary-foreground px-8 py-3.5 rounded-md font-semibold hover:border-primary hover:text-primary transition-colors text-base"
           >
-            Free Consultation
+            Book Your Session
           </Link>
         </motion.div>
       </div>
